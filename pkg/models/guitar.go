@@ -1,4 +1,4 @@
-package guitars
+package models
 
 type Guitar struct {
 	Id int64 `json:"id"`

@@ -3,8 +3,8 @@
 ## Topics covered
 
 - ✅ REST
-- [Messaging using AMQP]()
-- [Input Validation]()
+- [Messaging using AMQP](https://www.rabbitmq.com/tutorials/tutorial-one-go.html)
+- [Input Validation](https://blog.depa.do/post/gin-validation-errors-handling#toc_1)
 - [DB with PostgreSQL](https://bun.uptrace.dev)
 - [DEV DB with SQLite](https://bun.uptrace.dev)
 - [DB Versioning](https://bun.uptrace.dev/guide/migrations.html)
@@ -34,3 +34,9 @@ Quick answer:
 ### How to access the RabbitMQ Management UI?
 
 - Go to http://localhost:15672/ using username and password: guest
+
+### How to structure the code?
+
+- https://github.com/golang-standards/project-layout
+- https://gochronicles.com/project-structure/
+- Good example: https://github.com/vmware-tanzu/velero/tree/master

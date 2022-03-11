@@ -1,18 +1,19 @@
-package guitars
+package controllers
 
 import (
 	"fmt"
-	"github.com/aveiga/basic-golang-staticfile-server/domain/guitars"
-	guitars2 "github.com/aveiga/basic-golang-staticfile-server/services/guitars"
-	"github.com/aveiga/basic-golang-staticfile-server/utils/errors"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/aveiga/basic-golang-staticfile-server/internal/services"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/models"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customerrors"
+	"github.com/gin-gonic/gin"
 )
 
 func CreateGuitar(c *gin.Context) {
-	var guitar guitars.Guitar
+	var guitar models.Guitar
 	if err := c.ShouldBindJSON(&guitar); err != nil {
-		error := errors.RestError {
+		error := customerrors.RestError {
 			Message: "Invalid format",
 			Status: http.StatusBadRequest,
 			Code: "bad_request",
@@ -21,7 +22,7 @@ func CreateGuitar(c *gin.Context) {
 		return
 	}
 	fmt.Println(guitar)
-	result, saveError := guitars2.CreateGuitar(guitar)
+	result, saveError := services.CreateGuitar(guitar)
 	if saveError != nil {
 		return
 	}

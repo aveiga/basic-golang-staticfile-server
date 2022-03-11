@@ -1,4 +1,4 @@
-package errors
+package customerrors
 
 type RestError struct {
 	Message string `json:"message"`
