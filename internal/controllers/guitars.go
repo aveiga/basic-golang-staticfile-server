@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/aveiga/basic-golang-staticfile-server/internal/services"
@@ -10,13 +11,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateGuitar(c *gin.Context) {
+type BaseHandler struct {
+	guitarRepo models.GuitarRepository
+}
+
+func NewBaseHandler(guitarRepo models.GuitarRepository) *BaseHandler {
+	return &BaseHandler{
+		guitarRepo: guitarRepo,
+	}
+}
+
+func (h *BaseHandler) CreateGuitar(c *gin.Context) {
 	var guitar models.Guitar
 	if err := c.ShouldBindJSON(&guitar); err != nil {
-		error := customerrors.RestError {
+		error := customerrors.RestError{
 			Message: "Invalid format",
-			Status: http.StatusBadRequest,
-			Code: "bad_request",
+			Status:  http.StatusBadRequest,
+			Code:    "bad_request",
 		}
 		c.JSON(error.Status, error)
 		return
@@ -29,8 +40,14 @@ func CreateGuitar(c *gin.Context) {
 	c.JSON(http.StatusCreated, result)
 }
 
-func GetGuitars(c *gin.Context) {
-	c.String(http.StatusNotImplemented, "implement me")
+func (h *BaseHandler) GetGuitars(c *gin.Context) {
+	guitars, err := h.guitarRepo.FindAll()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, guitars)
 }
 
 func SearchGuitars(c *gin.Context) {

@@ -1,7 +1,12 @@
 package models
 
 type Guitar struct {
-	Id int64 `json:"id"`
-	Brand string `json:"brand"`
-	Model string `json:"model"`
+	Id    int64  `json:"Id" bun:"Id"`
+	Brand string `json:"brand" bun:"Brand"`
+	Model string `json:"model" bun:"Model"`
+}
+
+type GuitarRepository interface {
+	FindAll() (*[]Guitar, error)
+	Save(guitar *Guitar) error
 }
