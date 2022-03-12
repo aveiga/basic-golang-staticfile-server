@@ -5,8 +5,8 @@
 - ✅ REST
 - [Messaging using AMQP](https://www.rabbitmq.com/tutorials/tutorial-one-go.html)
 - [Input Validation](https://blog.depa.do/post/gin-validation-errors-handling#toc_1)
-- [DB with PostgreSQL](https://bun.uptrace.dev)
-- [DEV DB with SQLite](https://bun.uptrace.dev)
+- ✅ [DB with PostgreSQL](https://bun.uptrace.dev)
+- ✅ [DEV DB with SQLite](https://bun.uptrace.dev)
 - [DB Versioning](https://bun.uptrace.dev/guide/migrations.html)
 - Authentication and Authorization using OAuth v2
 - [Service Discovery](https://github.com/ArthurHlt/go-eureka-client)
