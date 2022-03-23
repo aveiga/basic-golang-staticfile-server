@@ -4,26 +4,31 @@ import (
 	"log"
 
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/models"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customamqp"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/serialization"
 )
 
 type GuitarService struct {
 	guitarRepo models.GuitarRepository
+	messaging  *customamqp.MessagingClient
 }
 
-func NewGuitarService(guitarRepo models.GuitarRepository) *GuitarService {
+func NewGuitarService(guitarRepo models.GuitarRepository, messaging *customamqp.MessagingClient) *GuitarService {
 	return &GuitarService{
 		guitarRepo: guitarRepo,
+		messaging:  messaging,
 	}
 }
 
-func (h *GuitarService) CreateGuitar(guitar *models.Guitar) (*models.Guitar, error) {
-	err := h.guitarRepo.Save(guitar)
+func (s *GuitarService) CreateGuitar(guitar *models.Guitar) (*models.Guitar, error) {
+	err := s.guitarRepo.Save(guitar)
+	serializedGuitar, _ := serialization.Serialize(guitar)
+	s.messaging.Publish(serializedGuitar, "guitars", "topic")
 	return guitar, err
-
 }
 
-func (h *GuitarService) GetGuitars() (*[]models.Guitar, error) {
-	guitars, err := h.guitarRepo.FindAll()
+func (s *GuitarService) GetGuitars() (*[]models.Guitar, error) {
+	guitars, err := s.guitarRepo.FindAll()
 	if err != nil {
 		log.Fatal(err)
 		return nil, err

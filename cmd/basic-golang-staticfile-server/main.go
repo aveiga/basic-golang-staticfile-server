@@ -9,6 +9,7 @@ import (
 	"github.com/aveiga/basic-golang-staticfile-server/internal/controllers"
 	"github.com/aveiga/basic-golang-staticfile-server/internal/repositories"
 	"github.com/aveiga/basic-golang-staticfile-server/internal/services"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customamqp"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customdb"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -61,6 +62,8 @@ func main() {
 
 	ctx := context.Background()
 	db, dbErr := customdb.GetDB()
+	defer db.Close()
+	messagingClient := customamqp.NewMessagingClient()
 
 	if dbErr != nil {
 		log.Fatal("Error creating database connection")
@@ -68,7 +71,7 @@ func main() {
 	}
 
 	guitarRepo := repositories.NewGuitarRepo(db, ctx)
-	guitarService := services.NewGuitarService(guitarRepo)
+	guitarService := services.NewGuitarService(guitarRepo, messagingClient)
 	guitarController := controllers.NewGuitarController(guitarService)
 
 	router := gin.Default()
