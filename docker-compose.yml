@@ -14,7 +14,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
 
   keycloak:
-    image: aveiga/keycloak:17.0.0
+    image: aveiga/keycloak:14.0.0
     ports:
       - 8080:8080
     environment:

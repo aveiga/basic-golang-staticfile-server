@@ -10,3 +10,8 @@ type GuitarRepository interface {
 	FindAll() (*[]Guitar, error)
 	Save(guitar *Guitar) error
 }
+
+type GuitarService interface {
+	CreateGuitar(guitar *Guitar) (*Guitar, error)
+	GetGuitars() (*[]Guitar, error)
+}

@@ -9,23 +9,23 @@ import (
 )
 
 type GuitarRepo struct {
-	db *bun.DB
+	db  *bun.DB
+	ctx context.Context
 }
 
-func NewGuitarRepo(db *bun.DB) *GuitarRepo {
+func NewGuitarRepo(db *bun.DB, ctx context.Context) *GuitarRepo {
+	db.NewCreateTable().Model((*models.Guitar)(nil)).IfNotExists().Exec(ctx)
 	return &GuitarRepo{
-		db: db,
+		db:  db,
+		ctx: ctx,
 	}
 }
 
 func (r *GuitarRepo) FindAll() (*[]models.Guitar, error) {
-	ctx := context.Background()
-	// db := bun.NewDB(r.db, pgdialect.New())
-
 	guitars := make([]models.Guitar, 0)
 	err := r.db.NewSelect().
 		Model(&guitars).
-		Scan(ctx)
+		Scan(r.ctx)
 
 	if err != nil {
 		log.Fatal(err)
@@ -35,5 +35,9 @@ func (r *GuitarRepo) FindAll() (*[]models.Guitar, error) {
 }
 
 func (r *GuitarRepo) Save(guitar *models.Guitar) error {
-	return nil
+	_, err := r.db.NewInsert().
+		Model(guitar).
+		Exec(r.ctx)
+
+	return err
 }

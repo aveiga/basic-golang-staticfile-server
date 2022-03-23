@@ -40,3 +40,11 @@ Quick answer:
 - https://github.com/golang-standards/project-layout
 - https://gochronicles.com/project-structure/
 - Good example: https://github.com/vmware-tanzu/velero/tree/master
+
+### Regarding Bun, what about Repositories?
+
+- https://techinscribed.com/different-approaches-to-pass-database-connection-into-controllers-in-golang/
+
+### How to create custom errors?
+
+- https://www.digitalocean.com/community/tutorials/creating-custom-errors-in-go

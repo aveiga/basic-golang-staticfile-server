@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/gin-gonic/gin v1.7.4
 	github.com/joho/godotenv v1.4.0
+	github.com/streadway/amqp v1.0.0
 	github.com/uptrace/bun v1.1.1
 	github.com/uptrace/bun/dialect/pgdialect v1.1.1
 	github.com/uptrace/bun/dialect/sqlitedialect v1.1.1
