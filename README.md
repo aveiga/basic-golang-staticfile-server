@@ -3,7 +3,7 @@
 ## Topics covered
 
 - ✅ REST
-- [Messaging using AMQP](https://www.rabbitmq.com/tutorials/tutorial-one-go.html)
+- ✅ [Messaging using AMQP](https://www.rabbitmq.com/tutorials/tutorial-one-go.html)
 - [Input Validation](https://blog.depa.do/post/gin-validation-errors-handling#toc_1)
 - ✅ [DB with PostgreSQL](https://bun.uptrace.dev)
 - ✅ [DEV DB with SQLite](https://bun.uptrace.dev)
