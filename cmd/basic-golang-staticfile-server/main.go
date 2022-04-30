@@ -11,6 +11,7 @@ import (
 	"github.com/aveiga/basic-golang-staticfile-server/internal/services"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customamqp"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customdb"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/uaa"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -77,8 +78,8 @@ func main() {
 	router := gin.Default()
 
 	router.POST("/guitars", guitarController.CreateGuitar)
-	router.GET("/guitars", guitarController.GetGuitars)
-	router.GET("/guitars/:id", guitarController.SearchGuitars)
+	router.GET("/guitars", uaa.Authenticated(), guitarController.GetGuitars)
+	router.GET("/guitars/:id", uaa.HasScope("email"), guitarController.SearchGuitars)
 	router.DELETE("/guitars/:id", guitarController.DeleteGuitar)
 
 	// Getting an oAuth2 Token

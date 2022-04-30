@@ -8,7 +8,7 @@
 - ✅ [DB with PostgreSQL](https://bun.uptrace.dev)
 - ✅ [DEV DB with SQLite](https://bun.uptrace.dev)
 - [DB Versioning](https://bun.uptrace.dev/guide/migrations.html)
-- Authentication and Authorization using OAuth v2
+- ✅ Authentication and Authorization using OAuth v2
 - [Service Discovery](https://github.com/ArthurHlt/go-eureka-client)
 - [Rate Limiting](https://github.com/ulule/limiter)
 - Logging
