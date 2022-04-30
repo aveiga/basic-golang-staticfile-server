@@ -81,6 +81,33 @@ func main() {
 	router.GET("/guitars/:id", guitarController.SearchGuitars)
 	router.DELETE("/guitars/:id", guitarController.DeleteGuitar)
 
+	// Getting an oAuth2 Token
+	// var oAuthConfig = &clientcredentials.Config{
+	// 	ClientID:     os.Getenv("OAUTH2_CLIENT"),
+	// 	ClientSecret: os.Getenv("OAUTH2_CLIENT_SECRET"),
+	// 	TokenURL:     os.Getenv("OAUTH2_TOKEN_URL"),
+	// 	Scopes:       []string{"email"},
+	// }
+	//
+	// var token, _ = oAuthConfig.Token(ctx)
+	// fmt.Printf(token.AccessToken)
+
+	// privateService := router.Group("/api/privateService")
+	// Replace the zalando.OAuth2Endpoint bellow with a Keycloak OAuth2Endpoint done by me. From the code:
+	// OAuth2Endpoint is similar to the definitions in golang.org/x/oauth2
+	// var OAuth2Endpoint = oauth2.Endpoint{
+	// 	AuthURL:  os.Getenv("OAUTH2_AUTH_URL"),
+	// 	TokenURL: os.Getenv("OAUTH2_TOKEN_URL"),
+	// }
+	// privateService.Use(ginoauth2.Auth(zalando.ScopeAndCheck("test", "email"), OAuth2Endpoint))
+	// privateService.GET("/", func(c *gin.Context) {
+	// 	if v, ok := c.Get("cn"); ok {
+	// 		c.JSON(200, gin.H{"message": fmt.Sprintf("Hello from private for services to %s", v)})
+	// 	} else {
+	// 		c.JSON(401, gin.H{"message": "Hello from private for services without cn"})
+	// 	}
+	// })
+
 	router.Run(fmt.Sprintf(":%v", os.Getenv("PORT")))
 
 }
