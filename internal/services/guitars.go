@@ -1,11 +1,11 @@
 package services
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/models"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customamqp"
-	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/serialization"
 )
 
 type GuitarService struct {
@@ -22,8 +22,12 @@ func NewGuitarService(guitarRepo models.GuitarRepository, messaging *customamqp.
 
 func (s *GuitarService) CreateGuitar(guitar *models.Guitar) (*models.Guitar, error) {
 	err := s.guitarRepo.Save(guitar)
-	serializedGuitar, _ := serialization.Serialize(guitar)
-	s.messaging.Publish(serializedGuitar, "guitars", "topic")
+	// serializedGuitar, _ := serialization.Serialize(guitar)
+	// s.messaging.Publish(serializedGuitar, "guitars", "topic")
+	// time.Sleep(5 * time.Second)
+	for i := 0; i < 10000; i++ {
+		fmt.Printf(`%d`, i)
+	}
 	return guitar, err
 }
 

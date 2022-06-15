@@ -75,12 +75,18 @@ func main() {
 	guitarService := services.NewGuitarService(guitarRepo, messagingClient)
 	guitarController := controllers.NewGuitarController(guitarService)
 
-	router := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
+	router := gin.New()
 
 	router.POST("/guitars", guitarController.CreateGuitar)
 	router.GET("/guitars", uaa.Authenticated(), guitarController.GetGuitars)
 	router.GET("/guitars/:id", uaa.HasScope("email"), guitarController.SearchGuitars)
 	router.DELETE("/guitars/:id", guitarController.DeleteGuitar)
+
+	// messagingClient.Subscribe("guitars", "topic", "main", func(d amqp.Delivery) {
+	// 	guitar, _ := serialization.Deserialize[*models.Guitar](d.Body)
+	// 	fmt.Printf(guitar.Brand)
+	// })
 
 	// Getting an oAuth2 Token
 	// var oAuthConfig = &clientcredentials.Config{
