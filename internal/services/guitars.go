@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/models"
@@ -24,10 +23,9 @@ func (s *GuitarService) CreateGuitar(guitar *models.Guitar) (*models.Guitar, err
 	err := s.guitarRepo.Save(guitar)
 	// serializedGuitar, _ := serialization.Serialize(guitar)
 	// s.messaging.Publish(serializedGuitar, "guitars", "topic")
-	// time.Sleep(5 * time.Second)
-	for i := 0; i < 10000; i++ {
-		fmt.Printf(`%d`, i)
-	}
+	// for i := 0; i < 10000; i++ {
+	// 	fmt.Printf(`%d`, i)
+	// }
 	return guitar, err
 }
 
