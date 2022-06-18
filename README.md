@@ -11,7 +11,7 @@
 - ✅ Authentication and Authorization using OAuth v2
 - [Service Discovery](https://github.com/ArthurHlt/go-eureka-client)
 - [Rate Limiting](https://github.com/ulule/limiter)
-- Logging
+- ✅ [Logging](https://pkg.go.dev/go.uber.org/zap#section-readme)
 - Error Handling
 - Testing
 - [API Documentation](https://medium.com/@pedram.esmaeeli/generate-swagger-specification-from-go-source-code-648615f7b9d9)

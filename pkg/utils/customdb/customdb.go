@@ -3,12 +3,12 @@ package customdb
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/models"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customerrors"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customlogger"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 	"github.com/uptrace/bun/dialect/sqlitedialect"
@@ -17,7 +17,9 @@ import (
 )
 
 func GetDB() (*bun.DB, error) {
-	if os.Getenv("GO_ENV") == models.PROD {
+	logger := customlogger.NewCustomLogger("test-app")
+
+	if os.Getenv("GIN_MODE") == models.PROD {
 		dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_ADDRESS"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
 		// dsn := "unix://user:pass@dbname/var/run/postgresql/.s.PGSQL.5432"
 		sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
@@ -27,7 +29,7 @@ func GetDB() (*bun.DB, error) {
 		return db, nil
 	}
 
-	if os.Getenv("GO_ENV") == models.DEV {
+	if os.Getenv("GIN_MODE") == models.DEV {
 		sqldb, err := sql.Open(sqliteshim.ShimName, "file::memory:?cache=shared")
 		if err != nil {
 			dbError := customerrors.RestError{
@@ -35,7 +37,7 @@ func GetDB() (*bun.DB, error) {
 				Status:  http.StatusInternalServerError,
 				Code:    "internal_server_error",
 			}
-			log.Fatal(err)
+			logger.Fatal(err)
 			return nil, &dbError
 		}
 
@@ -49,6 +51,6 @@ func GetDB() (*bun.DB, error) {
 		Status:  http.StatusInternalServerError,
 		Code:    "internal_server_error",
 	}
-	log.Fatal(missingEnvError)
+	logger.Fatal(missingEnvError)
 	return nil, &missingEnvError
 }

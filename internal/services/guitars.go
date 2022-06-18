@@ -1,21 +1,23 @@
 package services
 
 import (
-	"log"
-
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/models"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customamqp"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customlogger"
+	"go.uber.org/zap"
 )
 
 type GuitarService struct {
 	guitarRepo models.GuitarRepository
 	messaging  *customamqp.MessagingClient
+	logger     *zap.SugaredLogger
 }
 
 func NewGuitarService(guitarRepo models.GuitarRepository, messaging *customamqp.MessagingClient) *GuitarService {
 	return &GuitarService{
 		guitarRepo: guitarRepo,
 		messaging:  messaging,
+		logger:     customlogger.NewCustomLogger("test-app"),
 	}
 }
 
@@ -32,7 +34,7 @@ func (s *GuitarService) CreateGuitar(guitar *models.Guitar) (*models.Guitar, err
 func (s *GuitarService) GetGuitars() (*[]models.Guitar, error) {
 	guitars, err := s.guitarRepo.FindAll()
 	if err != nil {
-		log.Fatal(err)
+		s.logger.Fatal(err)
 		return nil, err
 	}
 

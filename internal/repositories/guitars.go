@@ -2,22 +2,25 @@ package repositories
 
 import (
 	"context"
-	"log"
 
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/models"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customlogger"
 	"github.com/uptrace/bun"
+	"go.uber.org/zap"
 )
 
 type GuitarRepo struct {
-	db  *bun.DB
-	ctx context.Context
+	db     *bun.DB
+	ctx    context.Context
+	logger *zap.SugaredLogger
 }
 
 func NewGuitarRepo(db *bun.DB, ctx context.Context) *GuitarRepo {
 	db.NewCreateTable().Model((*models.Guitar)(nil)).IfNotExists().Exec(ctx)
 	return &GuitarRepo{
-		db:  db,
-		ctx: ctx,
+		db:     db,
+		ctx:    ctx,
+		logger: customlogger.NewCustomLogger("test-app"),
 	}
 }
 
@@ -28,7 +31,7 @@ func (r *GuitarRepo) FindAll() (*[]models.Guitar, error) {
 		Scan(r.ctx)
 
 	if err != nil {
-		log.Fatal(err)
+		r.logger.Fatal(err)
 		return nil, err
 	}
 	return &guitars, nil

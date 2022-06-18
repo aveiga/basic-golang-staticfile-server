@@ -1,22 +1,24 @@
 package controllers
 
 import (
-	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/models"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customerrors"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customlogger"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type GuitarController struct {
 	guitarService models.GuitarService
+	logger        *zap.SugaredLogger
 }
 
 func NewGuitarController(guitarService models.GuitarService) *GuitarController {
 	return &GuitarController{
 		guitarService: guitarService,
+		logger:        customlogger.NewCustomLogger("test-app"),
 	}
 }
 
@@ -31,7 +33,7 @@ func (gc *GuitarController) CreateGuitar(c *gin.Context) {
 		c.JSON(error.Status, error)
 		return
 	}
-	fmt.Println(guitar)
+
 	result, saveError := gc.guitarService.CreateGuitar(&guitar)
 	if saveError != nil {
 		return
@@ -42,7 +44,7 @@ func (gc *GuitarController) CreateGuitar(c *gin.Context) {
 func (gc *GuitarController) GetGuitars(c *gin.Context) {
 	guitars, err := gc.guitarService.GetGuitars()
 	if err != nil {
-		log.Fatal(err)
+		gc.logger.Fatal(err.Error())
 		return
 	}
 

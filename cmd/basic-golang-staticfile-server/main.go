@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/aveiga/basic-golang-staticfile-server/internal/controllers"
@@ -11,6 +10,7 @@ import (
 	"github.com/aveiga/basic-golang-staticfile-server/internal/services"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customamqp"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customdb"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customlogger"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/uaa"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -18,48 +18,7 @@ import (
 
 func main() {
 	godotenv.Load()
-
-	// ch, _ := customamqp.GetAMQPChannel()
-	// q, _ := ch.QueueDeclare(
-	// 	"hello", // name
-	// 	false,   // durable
-	// 	false,   // delete when unused
-	// 	false,   // exclusive
-	// 	false,   // no-wait
-	// 	nil,     // arguments
-	// )
-
-	// body := "Hello World!"
-	// _ = ch.Publish(
-	// 	"",     // exchange
-	// 	q.Name, // routing key
-	// 	false,  // mandatory
-	// 	false,  // immediate
-	// 	amqp.Publishing{
-	// 		ContentType: "text/plain",
-	// 		Body:        []byte(body),
-	// 	})
-
-	// msgs, _ := ch.Consume(
-	// 	q.Name, // queue
-	// 	"",     // consumer
-	// 	true,   // auto-ack
-	// 	false,  // exclusive
-	// 	false,  // no-local
-	// 	false,  // no-wait
-	// 	nil,    // args
-	// )
-
-	// forever := make(chan bool)
-
-	// go func() {
-	// 	for d := range msgs {
-	// 		log.Printf("Received a message: %s", d.Body)
-	// 	}
-	// }()
-
-	// log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
-	// <-forever
+	logger := customlogger.NewCustomLogger("test-app")
 
 	ctx := context.Background()
 	db, dbErr := customdb.GetDB()
@@ -67,7 +26,7 @@ func main() {
 	messagingClient := customamqp.NewMessagingClient()
 
 	if dbErr != nil {
-		log.Fatal("Error creating database connection")
+		logger.Fatal("Error creating database connection")
 		return
 	}
 
@@ -75,7 +34,7 @@ func main() {
 	guitarService := services.NewGuitarService(guitarRepo, messagingClient)
 	guitarController := controllers.NewGuitarController(guitarService)
 
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 
 	router.POST("/guitars", guitarController.CreateGuitar)

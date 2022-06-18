@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -37,18 +36,13 @@ func introspect(token string) (TokenIntrospectionResult, error) {
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, _ := client.Do(r)
-	fmt.Println(resp.Status)
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	// Log the request body
-	bodyString := string(body)
-	log.Print(bodyString)
 	// Unmarshal result
 	res := TokenIntrospectionResult{}
 	err = json.Unmarshal(body, &res)
 
-	fmt.Printf("%v %v", res.Active, res.Scope)
 	return res, err
 }
 
