@@ -17,7 +17,7 @@ func NewGuitarService(guitarRepo models.GuitarRepository, messaging *customamqp.
 	return &GuitarService{
 		guitarRepo: guitarRepo,
 		messaging:  messaging,
-		logger:     customlogger.NewCustomLogger("test-app"),
+		logger:     customlogger.NewCustomLogger(),
 	}
 }
 

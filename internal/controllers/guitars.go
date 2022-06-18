@@ -18,7 +18,7 @@ type GuitarController struct {
 func NewGuitarController(guitarService models.GuitarService) *GuitarController {
 	return &GuitarController{
 		guitarService: guitarService,
-		logger:        customlogger.NewCustomLogger("test-app"),
+		logger:        customlogger.NewCustomLogger(),
 	}
 }
 

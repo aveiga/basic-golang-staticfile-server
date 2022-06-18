@@ -18,7 +18,7 @@ import (
 
 func main() {
 	godotenv.Load()
-	logger := customlogger.NewCustomLogger("test-app")
+	logger := customlogger.NewCustomLogger()
 
 	ctx := context.Background()
 	db, dbErr := customdb.GetDB()

@@ -20,7 +20,7 @@ func NewGuitarRepo(db *bun.DB, ctx context.Context) *GuitarRepo {
 	return &GuitarRepo{
 		db:     db,
 		ctx:    ctx,
-		logger: customlogger.NewCustomLogger("test-app"),
+		logger: customlogger.NewCustomLogger(),
 	}
 }
 
