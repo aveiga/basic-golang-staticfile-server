@@ -4,7 +4,7 @@
 
 - ✅ REST
 - ✅ [Messaging using AMQP](https://www.rabbitmq.com/tutorials/tutorial-one-go.html)
-- [Input Validation](https://blog.depa.do/post/gin-validation-errors-handling#toc_1)
+- ✅ [Input Validation](https://blog.depa.do/post/gin-validation-errors-handling#toc_1)
 - ✅ [DB with PostgreSQL](https://bun.uptrace.dev)
 - ✅ [DEV DB with SQLite](https://bun.uptrace.dev)
 - [DB Versioning](https://bun.uptrace.dev/guide/migrations.html)
@@ -12,12 +12,12 @@
 - [Service Discovery](https://github.com/ArthurHlt/go-eureka-client)
 - [Rate Limiting](https://github.com/ulule/limiter)
 - ✅ [Logging](https://pkg.go.dev/go.uber.org/zap#section-readme)
-- Error Handling
+- ✅ Error Handling
 - Testing
 - [API Documentation](https://medium.com/@pedram.esmaeeli/generate-swagger-specification-from-go-source-code-648615f7b9d9)
 - [Monitoring](https://prometheus.io/docs/guides/go-application/)
 - [Websockets](https://github.com/gorilla/websocket)
-- Developing and serving UI fragments
+- ✅ Developing and serving UI fragments
 - Serving UI assets
 
 ## To cleanup

@@ -3,6 +3,7 @@ module github.com/aveiga/basic-golang-staticfile-server
 go 1.18
 
 require (
+	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/joho/godotenv v1.4.0
 	github.com/streadway/amqp v1.0.0

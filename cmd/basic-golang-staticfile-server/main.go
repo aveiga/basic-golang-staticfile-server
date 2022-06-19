@@ -13,6 +13,7 @@ import (
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customerrors"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customlogger"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/uaa"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -38,11 +39,14 @@ func main() {
 	// gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 	router.Use(customerrors.ErrorHandler(logger))
+	router.Use(static.ServeRoot("/", "./static"))
 
 	router.POST("/guitars", uaa.HasScope("email"), guitarController.CreateGuitar)
 	router.GET("/guitars", uaa.Authenticated(), guitarController.GetGuitars)
 	router.GET("/guitars/:id", uaa.HasScope("email"), guitarController.SearchGuitars)
 	router.DELETE("/guitars/:id", guitarController.DeleteGuitar)
+
+	// router.Static("/", "./static")
 
 	// messagingClient.Subscribe("guitars", "topic", "main", func(d amqp.Delivery) {
 	// 	guitar, _ := serialization.Deserialize[*models.Guitar](d.Body)
