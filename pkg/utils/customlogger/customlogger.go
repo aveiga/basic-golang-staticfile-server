@@ -16,8 +16,22 @@ func NewCustomLogger() *zap.SugaredLogger {
 	rawJSON := []byte(fmt.Sprintf(`{
 		"level": "debug",
 		"encoding": "json",
+		"outputPaths": ["stdout"],
+	  	"errorOutputPaths": ["stderr"],
 		"initialFields": {
 			"application": "%s"
+		},
+		"encoderConfig": {
+			"messageKey": "message",
+			"levelKey": "level",
+			"timeKey": "timestamp",
+			"nameKey": "name",
+			"callerKey": "caller",
+			"functionKey": "function",
+			"stacktraceKey": "stacktrace",
+			"levelEncoder": "lowercase",
+			"timeEncoder": "iso8601",
+			"callerEncoder": "short"
 		}
 	}`, os.Getenv("APP_NAME")))
 

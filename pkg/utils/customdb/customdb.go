@@ -33,9 +33,8 @@ func GetDB() (*bun.DB, error) {
 		sqldb, err := sql.Open(sqliteshim.ShimName, "file::memory:?cache=shared")
 		if err != nil {
 			dbError := customerrors.RestError{
-				Message: "Failed setting up DB access",
-				Status:  http.StatusInternalServerError,
-				Code:    "internal_server_error",
+				ErrorMessages: customerrors.NewErrorMessageList("Failed setting up DB access"),
+				Status:        http.StatusInternalServerError,
 			}
 			logger.Fatal(err)
 			return nil, &dbError
@@ -47,9 +46,8 @@ func GetDB() (*bun.DB, error) {
 	}
 
 	missingEnvError := customerrors.RestError{
-		Message: "Missing GO ENV definition",
-		Status:  http.StatusInternalServerError,
-		Code:    "internal_server_error",
+		ErrorMessages: customerrors.NewErrorMessageList("Missing GO ENV definition"),
+		Status:        http.StatusInternalServerError,
 	}
 	logger.Fatal(missingEnvError)
 	return nil, &missingEnvError

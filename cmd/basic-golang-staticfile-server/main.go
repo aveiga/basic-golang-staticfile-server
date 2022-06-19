@@ -10,6 +10,7 @@ import (
 	"github.com/aveiga/basic-golang-staticfile-server/internal/services"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customamqp"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customdb"
+	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customerrors"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/customlogger"
 	"github.com/aveiga/basic-golang-staticfile-server/pkg/utils/uaa"
 	"github.com/gin-gonic/gin"
@@ -36,8 +37,9 @@ func main() {
 
 	// gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
+	router.Use(customerrors.ErrorHandler(logger))
 
-	router.POST("/guitars", guitarController.CreateGuitar)
+	router.POST("/guitars", uaa.HasScope("email"), guitarController.CreateGuitar)
 	router.GET("/guitars", uaa.Authenticated(), guitarController.GetGuitars)
 	router.GET("/guitars/:id", uaa.HasScope("email"), guitarController.SearchGuitars)
 	router.DELETE("/guitars/:id", guitarController.DeleteGuitar)

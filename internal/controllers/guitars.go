@@ -26,17 +26,22 @@ func (gc *GuitarController) CreateGuitar(c *gin.Context) {
 	var guitar models.Guitar
 	if err := c.ShouldBindJSON(&guitar); err != nil {
 		error := customerrors.RestError{
-			Message: "Invalid format",
-			Status:  http.StatusBadRequest,
-			Code:    "bad_request",
+			ErrorMessages: customerrors.NewErrorMessageList(err.Error()),
+			Status:        http.StatusBadRequest,
+			Category:      customerrors.CategoryGeneral,
 		}
-		c.JSON(error.Status, error)
+		c.AbortWithError(error.Status, &error)
 		return
 	}
 
 	result, saveError := gc.guitarService.CreateGuitar(&guitar)
 	if saveError != nil {
-		return
+		error := customerrors.RestError{
+			ErrorMessages: customerrors.NewErrorMessageList(saveError.Error()),
+			Status:        http.StatusInternalServerError,
+			Category:      customerrors.CategoryGeneral,
+		}
+		c.AbortWithError(error.Status, &error)
 	}
 	c.JSON(http.StatusCreated, result)
 }
@@ -44,7 +49,12 @@ func (gc *GuitarController) CreateGuitar(c *gin.Context) {
 func (gc *GuitarController) GetGuitars(c *gin.Context) {
 	guitars, err := gc.guitarService.GetGuitars()
 	if err != nil {
-		gc.logger.Fatal(err.Error())
+		error := customerrors.RestError{
+			ErrorMessages: customerrors.NewErrorMessageList(err.Error()),
+			Status:        http.StatusInternalServerError,
+			Category:      customerrors.CategoryGeneral,
+		}
+		c.AbortWithError(error.Status, &error)
 		return
 	}
 

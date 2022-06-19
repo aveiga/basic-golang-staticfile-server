@@ -2,8 +2,8 @@ package models
 
 type Guitar struct {
 	Id    int64  `json:"Id" bun:"Id"`
-	Brand string `json:"brand" bun:"Brand"`
-	Model string `json:"model" bun:"Model"`
+	Brand string `json:"brand" binding:"required" bun:"Brand"`
+	Model string `json:"model" binding:"required" bun:"Model"`
 }
 
 type GuitarRepository interface {
